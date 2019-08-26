@@ -5,13 +5,14 @@ var express     =    require("express");
     Campground  =    require("./models/campground");
     seedDB      =    require("./seeds");
     Comment     =    require("./models/comment");
-    seedDB();
 
 mongoose.connect('mongodb://localhost:27017/campyeah', { useNewUrlParser: true });
 
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
-
+app.use(express.static(__dirname + "/public"));
+console.log(__dirname );
+seedDB();
 
 app.get("/", function(req, res){
     res.redirect("/campgrounds");
