@@ -119,13 +119,21 @@ app.post("/campgrounds/:id/comments", function(req, res){
 
 //SHOW regiter form
 
-// app.get("/register", (req, res) => {
-//     res.render("register");
-// })
+app.get("/register", (req, res) => {
+    res.render("register");
+})
 
-// app.post("/register", (req, res) => {
-    
-// })
+app.post("/register", (req, res) => {
+    User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
+        if (err) {
+            console.log(err);
+            res.render("register");
+        }
+        passport.authenticate("local")(req, res, function () {
+            res.redirect("/campgrounds");
+       })
+    })
+})
 
 app.listen(process.env.PORT || 3000, function(){
     console.log("Server has started");
