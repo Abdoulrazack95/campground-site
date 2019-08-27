@@ -1,10 +1,13 @@
-var express     =    require("express");
-    app         =    express();
-    bodyParser  =    require("body-parser");
-    mongoose    =    require("mongoose");
-    Campground  =    require("./models/campground");
-    seedDB      =    require("./seeds");
-    Comment     =    require("./models/comment");
+var express                 = require("express"),
+    app                     = express(),
+    bodyParser              = require("body-parser"),
+    mongoose                = require("mongoose"),
+    Campground              = require("./models/campground"),
+    seedDB                  = require("./seeds"),
+    passport                = require("passport"),
+    LocalStrategy           = require("passport-local"),
+    passportLocalMongoose   = require("passport-local-mongoose");
+    Comment                 = require("./models/comment");
 
 mongoose.connect('mongodb://localhost:27017/campyeah', { useNewUrlParser: true });
 
