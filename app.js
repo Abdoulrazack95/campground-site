@@ -27,6 +27,10 @@ seedDB();
 //PASSPORT CONFIGURATION
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(function (req, res, next) {
+    res.locals.currentUser = req.user;
+    next();
+})
 passport.use(new LocalStrategy(User.authenticate()));
 
 
@@ -34,11 +38,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+
+
 app.get("/", function(req, res){
     res.redirect("/campgrounds");
 })
 
-app.get("/campgrounds", function(req,res){
+app.get("/campgrounds", function (req, res) {
     Campground.find({}, function(err, allcampgrounds){
         if(err){
             console.log(err);
