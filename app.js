@@ -160,6 +160,9 @@ function isLoggedIn(req, res, next) {
     res.redirect("/login")
 }
 
+//Authentication configuration done
+
+
 app.listen(process.env.PORT || 3000, function(){
     console.log("Server has started");
 });
