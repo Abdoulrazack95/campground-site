@@ -27,7 +27,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false
 }))
-seedDB();
+// seedDB(); // SEED DATABASE
 
 //PASSPORT CONFIGURATION
 app.use(passport.initialize());
@@ -36,9 +36,10 @@ app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
     next();
 })
+
+app.use(autheRouter);
 app.use(campgroundRouter);
 app.use(commentsRouter);
-app.use(autheRouter);
 passport.use(new LocalStrategy(User.authenticate()));
 
 

@@ -7,6 +7,7 @@ router.get("/", function (req, res) {
     res.redirect("/campgrounds");
 })
 
+
 router.get("/campgrounds", function (req, res) {
     Campground.find({}, function (err, allcampgrounds) {
         if (err) {
