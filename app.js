@@ -2,8 +2,7 @@ var express             = require("express"),
     app                 = express(),
     bodyParser          = require("body-parser"),
     mongoose            = require("mongoose"),
-    campgrounds         = require("./models/campground");
-    Comment             = require("./models/comment"),
+    methodOverride      = require("method-override"),
     User                = require("./models/user"),
     session             = require("express-session"),
     passport            = require("passport"),
@@ -26,7 +25,8 @@ app.use(session({
     secret: "I am clever and I know it",
     resave: false,
     saveUninitialized: false
-}))
+}));
+app.use(methodOverride("_method"));
 // seedDB(); // SEED DATABASE
 
 //PASSPORT CONFIGURATION
