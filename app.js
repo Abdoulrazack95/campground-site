@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/campyeah', { useNewUrlParser: true }
 app.set("view engine", "ejs");
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static(__dirname + "/public"));
+app.use(express.static("public"));
 app.use(session({
     secret: "I am clever and I know it",
     resave: false,
