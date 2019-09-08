@@ -46,12 +46,6 @@ router.get("/logout", function (req, res) {
     res.redirect("/campgrounds");
 })
 
-function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) {
-        return next();
-    }
-    res.redirect("/login")
-}
 
 //Authentication configuration done
 
