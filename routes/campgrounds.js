@@ -72,6 +72,7 @@ router.put("/campgrounds/:id", middleware.checkCampgoundOwnership ,function (req
 })
 
 //Delete Route
+
 router.delete("/campgrounds/:id", middleware.checkCampgoundOwnership,function (req, res) {
     Campground.findByIdAndRemove(req.params.id, function (err, deleted) {
         if (err) {
