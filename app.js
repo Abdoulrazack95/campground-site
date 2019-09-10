@@ -2,6 +2,7 @@ var express             = require("express"),
     app                 = express(),
     bodyParser          = require("body-parser"),
     mongoose            = require("mongoose"),
+    flash               = require("connect-flash"),
     methodOverride      = require("method-override"),
     User                = require("./models/user"),
     session             = require("express-session"),
@@ -27,6 +28,7 @@ app.use(session({
     saveUninitialized: false
 }));
 app.use(methodOverride("_method"));
+app.use(flash());
 // seedDB(); // SEED DATABASE
 
 //PASSPORT CONFIGURATION
@@ -34,6 +36,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(function (req, res, next) {
     res.locals.currentUser = req.user;
+    res.locals.error   = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 })
 

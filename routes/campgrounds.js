@@ -5,7 +5,7 @@ var express    = require("express"),
     
 // INDEX - Show all Campgrounds
 router.get("/", function (req, res) {
-    res.redirect("/campgrounds");
+    res.render("campgrounds/landing");
 })
 
 
@@ -56,6 +56,7 @@ router.get("/campgrounds/:id", function (req, res) {
 // Edit Campground Routes
 router.get("/campgrounds/:id/edit", middleware.checkCampgoundOwnership, function (req, res) {
     Campground.findById(req.params.id, function (err, foundCampground) {
+        req.flash("error", "Campground not found");
         res.render("campgrounds/edit", { campground: foundCampground });
     })
 })
