@@ -13,25 +13,27 @@ passport.use(new LocalStrategy(User.authenticate()));
 //SHOW regiter form
 
 router.get("/register", (req, res) => {
-    res.render("campgrounds/register");
+    res.render("campgrounds/register", { page: 'register' });
 })
 
 router.post("/register", (req, res) => {
     User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
         if (err) {
-            req.flash("error", err.message);
-            res.render("campgrounds/register");
+            console.log(err);
+            return res.render("campgrounds/register", { error: err.message });
         }
         passport.authenticate("local")(req, res, function () {
-            req.flash("success", "Welcome to CampYeah " + user.username);
+            req.flash("success", "Successfully Signed Up! Nice to meet you "  + user.username);
             res.redirect("/campgrounds");
         })
     })
 });
 
+
+
 //LOGIN routerRS
 router.get("/login", function (req, res) {
-    res.render("campgrounds/login");
+    res.render("campgrounds/login", { page: 'login' });
 });
 
 router.post("/login", passport.authenticate("local",
