@@ -121,7 +121,7 @@ router.put("/campgrounds/:id", middleware.checkCampgroundOwnership, function (re
 
 //Delete Route
 
-router.delete("/campgrounds/:id", middleware.checkCampgoundOwnership,function (req, res) {
+router.delete("/campgrounds/:id", middleware.checkCampgroundOwnership,function (req, res) {
     Campground.findByIdAndRemove(req.params.id, function (err, deleted) {
         if (err) {
             res.redirect("/campgrounds");
