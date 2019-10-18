@@ -4,7 +4,7 @@ var Comment         = require("../models/comment");
 var middlewareObj   = {};
 
 //Check campground ownership
-middlewareObj.checkCampgoundOwnership = function (req, res, next) {
+middlewareObj.checkCampgroundOwnership = function (req, res, next) {
     if (req.isAuthenticated()) {
         Campground.findById(req.params.id, function (err, foundCampground) {
             if (err) {
