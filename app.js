@@ -1,4 +1,5 @@
 require("dotenv").config();
+
 var express             = require("express"),
     app                 = express(),
     bodyParser          = require("body-parser"),
@@ -54,6 +55,6 @@ passport.deserializeUser(User.deserializeUser());
 
 
 
-app.listen(process.env.PORT || 3000, function(){
+app.listen(3000, function(){
     console.log("Server has started");
 });
