@@ -33,6 +33,9 @@ app.use(methodOverride("_method"));
 app.use(flash());
 // seedDB(); // SEED DATABASE
 
+//Moment import
+app.locals.moment = require("moment");
+
 //PASSPORT CONFIGURATION
 app.use(passport.initialize());
 app.use(passport.session());

@@ -1,6 +1,10 @@
 var mongoose    = require("mongoose");
 
 var commentSchema = new mongoose.Schema({
+    createDate: {
+        type: Date,
+        default: Date.now
+    },
     author: {
         id: {
             type: mongoose.Schema.Types.ObjectId,
