@@ -17,7 +17,11 @@ router.get("/register", (req, res) => {
 })
 
 router.post("/register", (req, res) => {
-    User.register(new User({ username: req.body.username }), req.body.password, function (err, user) {
+    var newUser = new User({ username: req.body.username });
+    if (req.body.adminCode === "SecretCode12") {
+        newUser.isAdmin = true;
+    }
+    User.register(newUser, req.body.password, function (err, user) {
         if (err) {
             console.log(err);
             return res.render("campgrounds/register", { error: err.message });
@@ -28,7 +32,6 @@ router.post("/register", (req, res) => {
         })
     })
 });
-
 
 
 //LOGIN routerRS
