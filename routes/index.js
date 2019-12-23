@@ -3,6 +3,7 @@ var express       = require("express"),
     User          = require("../models/user"),
     LocalStrategy = require("passport-local"),
     passport      = require("passport"),
+    campgrounds   = require("../models/campground"),
     router        = express.Router();
 
 passport.use(new LocalStrategy(User.authenticate()));
@@ -17,7 +18,13 @@ router.get("/register", (req, res) => {
 })
 
 router.post("/register", (req, res) => {
-    var newUser = new User({ username: req.body.username });
+    var newUser = new User({
+        username: req.body.username,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        avatar: req.body.avatar
+    });
     if (req.body.adminCode === "SecretCode12") {
         newUser.isAdmin = true;
     }
@@ -54,6 +61,22 @@ router.get("/logout", function (req, res) {
 });
 
 
-//Authentication configuration done
+
+//User profile
+router.get("/users/:id", function (req, res) {
+    User.findById(req.params.id, function (err, findUser) {
+        if (err) {
+            res.flash("Ooops, something went wrong");
+            req.redirect("/");
+        } 
+        campgrounds.find().where("author.id").equals(findUser._id).exec(function (err, campgrounds) {
+            if (err) {
+                res.flash("Ooops, something went wrong");
+                req.redirect("/");
+            }
+            res.render("users/show", { user: findUser, campgrounds: campgrounds })
+        })
+    })
+})
 
 module.exports = router;
