@@ -1,10 +1,13 @@
 
-var express       = require("express"),
-    User          = require("../models/user"),
-    LocalStrategy = require("passport-local"),
-    passport      = require("passport"),
-    campgrounds   = require("../models/campground"),
-    router        = express.Router();
+var express         = require("express"),
+    User            = require("../models/user"),
+    LocalStrategy   = require("passport-local"),
+    passport        = require("passport"),
+    campgrounds     = require("../models/campground"),
+    async           = require("async"),
+    nodemailer      = require("nodemailer"),
+    crypto          = require("crypto"),
+    router          = express.Router();
 
 passport.use(new LocalStrategy(User.authenticate()));
 //=====================
@@ -77,6 +80,15 @@ router.get("/users/:id", function (req, res) {
             res.render("users/show", { user: findUser, campgrounds: campgrounds })
         })
     })
+})
+
+//Forgot Password
+router.get("/forgot", function (req, res) {
+    res.render("users/forgot");
+})
+
+router.post("forgot", function (req, res, next) {
+
 })
 
 module.exports = router;
