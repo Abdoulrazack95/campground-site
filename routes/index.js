@@ -87,8 +87,54 @@ router.get("/forgot", function (req, res) {
     res.render("users/forgot");
 })
 
-router.post("forgot", function (req, res, next) {
+router.post("/forgot", function (req, res, next) {
+    async.waterfall([
+        function (done) {
+            crypto.randomBytes(20, function (err, buf) {
+                var token = buf.toString("hex");
+                done(err, token);
+            });
+        },
+        function (token, done) {
+            User.findOne({ email: req.body.email }, function (err, user) {
+                if (!user) {
+                    req.flash("error", "No accounts with that email address exists.");
+                    return res.redirect("/forgot");
+                }
+                user.resetPasswordToken = token;
+                user.resetPasswordExpires = Date.now() + 3600000;
 
-})
+                user.save(function (err) {
+                    done(err, token, user);
+                });
+            });
+        },
+        function (token, user, done) {
+            var smtpTransport = nodemailer.createTransport({
+                service: "Gmail",
+                autho: {
+                    user: "abdoulrazackkahin434@gmail.com",
+                    pass: process.env.GMAILPW
+                }
+            });
+            var mailOptions = {
+                to: user.email,
+                from: "abdoulrazackkahin434@gmail.com",
+                text: "You are receiving this email because you have requisted the reset of the password " +
+                    "Please click on the following link or past this into your browser to complete the process " +
+                    "http://" + req.headers.host + "/reset" + token + "\n\n" +
+                    "if you did not request this, please ignore this email and your password will remain unchanged"
+            };
+            smtpTransport.sendMail(mailOptions, function (err) {
+                console.log("mail sent");
+                req.flash("Success", "An e-mail has been sent to " + user.email + " with further instructions.");
+                done(err, "done");
+            });
+        }
+    ], function (err) {
+        if (err) return next(err);
+        res.redirect("/forgot");
+    });
+});
 
 module.exports = router;
